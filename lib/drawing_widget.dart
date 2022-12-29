@@ -1,7 +1,4 @@
 library drawing_widget;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/drawing_widget.dart';
+export 'src/points.dart';

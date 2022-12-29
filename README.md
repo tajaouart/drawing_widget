@@ -1,5 +1,5 @@
 
-Light widget make some drawing.
+Light widget to make some drawing.
 
 
 <img src="https://raw.githubusercontent.com/tajaouart/drawing_widget/main/drawing_widget.gif" height="600"/>

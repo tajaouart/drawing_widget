@@ -4,3 +4,11 @@ Drawing & display mode.
 Change color.
 Change stroke value.
 Adaptative size.
+
+## 0.0.2
+
+Fixed size scaling issues.
+
+## 0.0.3
+
+Fixed size scaling issues.

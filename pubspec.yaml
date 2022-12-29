@@ -1,6 +1,6 @@
 name: drawing_widget
 description: Drawing Widget.
-version: 0.0.1
+version: 0.0.3
 homepage: https://github.com/tajaouart/drawing_widget
 
 environment:

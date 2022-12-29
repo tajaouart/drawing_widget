@@ -1,3 +1,6 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+Drawing & display mode.
+Change color.
+Change stroke value.
+Adaptative size.

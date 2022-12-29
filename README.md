@@ -2,7 +2,7 @@
 Light widget make some drawing.
 
 
-<img src="" height="600"/>
+<img src="https://raw.githubusercontent.com/tajaouart/drawing_widget/main/drawing_widget.gif" height="600"/>
 
 ## Features
 

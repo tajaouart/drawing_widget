@@ -13,11 +13,15 @@ class DrawingWidget extends StatefulWidget {
     this.strokeValue = 1,
     this.onUpdate,
     Key? key,
+    required this.height,
+    required this.width,
   }) : super(key: key);
 
   final List<List<Point>> points;
   final double strokeValue;
   final Color strokeColor;
+  final double height;
+  final double width;
   final bool drawing;
   final Function(List<List<Point>>)? onUpdate;
 
@@ -36,96 +40,80 @@ class _DrawingWidgetState extends State<DrawingWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      final double maxWidth;
-      final double maxHeight;
-      if (constraints.maxWidth.toString() == 'NaN') {
-        maxWidth = 0;
-      } else {
-        maxWidth = constraints.maxWidth;
-      }
-
-      if (constraints.maxWidth.toString() == 'NaN') {
-        maxHeight = 0;
-      } else {
-        maxHeight = constraints.maxHeight;
-      }
-
-      return RepaintBoundary(
-        child: ClipRRect(
-          child: Stack(
-            children: [
+    return RepaintBoundary(
+      child: ClipRRect(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: CustomPaint(
+                painter: DrawPainter(
+                  points,
+                  color: widget.strokeColor,
+                  strokeValue: widget.strokeValue,
+                  drawing: widget.drawing,
+                  height: widget.height,
+                  width: widget.width,
+                ),
+                child: Container(),
+              ),
+            ),
+            if (widget.drawing)
               Positioned.fill(
-                child: CustomPaint(
-                  painter: DrawPainter(
-                    points,
-                    color: widget.strokeColor,
-                    strokeValue: widget.strokeValue,
-                    drawing: widget.drawing,
-                    height: maxHeight,
-                    width: maxWidth,
-                  ),
-                  child: Container(),
+                child: GestureDetector(
+                  onHorizontalDragEnd: (_) {
+                    points.add([]);
+                    widget.onUpdate?.call(points);
+                  },
+                  onVerticalDragEnd: (_) {
+                    points.add([]);
+                    widget.onUpdate?.call(points);
+                  },
+                  onHorizontalDragUpdate: (details) {
+                    var mouseX = details.localPosition.dx;
+                    var mouseY = details.localPosition.dy;
+
+                    if (mouseX > widget.width || mouseX < 0) {
+                      return;
+                    }
+                    if (mouseY > widget.height || mouseX < 0) {
+                      return;
+                    }
+
+                    if (points.isEmpty) {
+                      points.add([]);
+                    }
+                    setState(() {
+                      points.last.add(Point(mouseX.toInt(), mouseY.toInt()));
+                    });
+                  },
+                  onVerticalDragUpdate: (details) {
+                    var mouseX = details.localPosition.dx;
+                    var mouseY = details.localPosition.dy;
+                    if (points.isEmpty) {
+                      points.add([]);
+                    }
+                    setState(() {
+                      points.last.add(Point(mouseX.toInt(), mouseY.toInt()));
+                    });
+                  },
                 ),
               ),
-              if (widget.drawing)
-                Positioned.fill(
-                  child: GestureDetector(
-                    onHorizontalDragEnd: (_) {
-                      points.add([]);
-                      widget.onUpdate?.call(points);
-                    },
-                    onVerticalDragEnd: (_) {
-                      points.add([]);
-                      widget.onUpdate?.call(points);
-                    },
-                    onHorizontalDragUpdate: (details) {
-                      var mouseX = details.localPosition.dx;
-                      var mouseY = details.localPosition.dy;
-
-                      if (mouseX > maxWidth || mouseX < 0) {
-                        return;
-                      }
-                      if (mouseY > maxHeight || mouseX < 0) {
-                        return;
-                      }
-
-                      if (points.isEmpty) {
-                        points.add([]);
-                      }
-                      setState(() {
-                        points.last.add(Point(mouseX.toInt(), mouseY.toInt()));
-                      });
-                    },
-                    onVerticalDragUpdate: (details) {
-                      var mouseX = details.localPosition.dx;
-                      var mouseY = details.localPosition.dy;
-                      if (points.isEmpty) {
-                        points.add([]);
-                      }
-                      setState(() {
-                        points.last.add(Point(mouseX.toInt(), mouseY.toInt()));
-                      });
-                    },
-                  ),
-                ),
-            ],
-          ),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 }
 
 class DrawPainter extends CustomPainter {
   DrawPainter(
-      this.points, {
-        required this.color,
-        required this.strokeValue,
-        this.drawing = false,
-        required this.width,
-        required this.height,
-      });
+    this.points, {
+    required this.color,
+    required this.strokeValue,
+    this.drawing = false,
+    required this.width,
+    required this.height,
+  });
 
   final List<List<Point>> points;
   final double strokeValue;

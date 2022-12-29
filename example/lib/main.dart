@@ -56,6 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   points: points,
                   strokeColor: _color,
                   strokeValue: strokeValue,
+                  width: screenWidth * (drawingWidth / 10),
+                  height: screenWidth * (drawingHeight / 10),
                   drawing: drawing,
                   onUpdate: (value) {
                     points = value;

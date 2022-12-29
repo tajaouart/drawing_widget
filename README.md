@@ -6,7 +6,7 @@ Light widget make some drawing.
 
 ## Features
 
-* Drawing & display mode.
+* Drawing & displaying mode.
 * Change color.
 * Change stroke value.
 * Adaptative size.
@@ -14,7 +14,7 @@ Light widget make some drawing.
 
 ## Usage
 
-Change drawing value to ether start drawing or display a drawing.
+Change drawing property to ether start drawing or display a drawing.
 
 
 

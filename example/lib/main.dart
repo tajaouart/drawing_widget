@@ -31,12 +31,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<List<Point>> points = [];
   double drawingWidth = 10;
   double drawingHeight = 10;
-  double strokeValue = 5;
-  Color _color = Colors.black;
-  bool drawing = true;
+  bool isDrawing = true;
+  Drawing drawing = Drawing();
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
               height: screenWidth,
               child: Center(
                 child: DrawingWidget(
-                  points: points,
-                  strokeColor: _color,
-                  strokeValue: strokeValue,
+                  drawing: drawing,
+                  isDrawing: isDrawing,
                   width: screenWidth * (drawingWidth / 10),
                   height: screenWidth * (drawingHeight / 10),
-                  drawing: drawing,
-                  onUpdate: (value) {
-                    points = value;
+                  onUpdate: (drawingObject) {
+                    /// TODO
                   },
                 ),
               ),
@@ -70,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  if (!drawing)
+                  if (!isDrawing)
                     Row(
                       children: [
                         const Text(('Width : ')),
@@ -88,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                  if (!drawing)
+                  if (!isDrawing)
                     Row(
                       children: [
                         const Text(('Height : ')),
@@ -111,12 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       const Text(('Stroke : ')),
                       Expanded(
                         child: Slider(
-                          value: strokeValue,
+                          value: drawing.stroke,
                           min: 1,
                           max: 100,
                           onChanged: (value) {
                             setState(() {
-                              strokeValue = value;
+                              drawing.stroke = value;
                             });
                           },
                         ),
@@ -131,17 +127,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         alignment: Alignment.center,
                         child: InkWell(
                           onTap: () async {
-                            final color = await _showColorDialogue(_color);
+                            final color =
+                                await _showColorDialogue(drawing.color);
 
                             setState(() {
-                              _color = color;
+                              drawing.color = color;
                             });
                           },
                           child: Container(
                             width: 20,
                             height: 20,
                             decoration: BoxDecoration(
-                              color: _color,
+                              color: drawing.color,
                               border: Border.all(
                                 color: Colors.black,
                               ),
@@ -160,18 +157,18 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            if (drawing) {
-              drawing = false;
+            if (isDrawing) {
+              isDrawing = false;
             } else {
-              points.clear();
+              drawing = Drawing();
               drawingWidth = 10;
               drawingHeight = 10;
-              drawing = true;
+              isDrawing = true;
             }
           });
         },
         child: Icon(
-          drawing ? Icons.pause_rounded : Icons.play_arrow_rounded,
+          isDrawing ? Icons.pause_rounded : Icons.play_arrow_rounded,
         ),
       ),
     );

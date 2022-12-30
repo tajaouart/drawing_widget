@@ -20,13 +20,14 @@ Change drawing property to ether start drawing or display a drawing.
 
 ```dart
 
-final _points = [];
+final _drawing = Drawing(
+  strokeColor: Colors.black,
+  strokeValue: 2,
+  isDrawing: true,
+);
 
 DrawingWidget(
- points: _points,
- strokeColor: Colors.black,
- strokeValue: 2,
- drawing: true,
+ drawing: _drawing,
  onUpdate: (value) {
  points = value;
  },

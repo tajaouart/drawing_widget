@@ -29,7 +29,7 @@ final _drawing = Drawing(
 DrawingWidget(
  drawing: _drawing,
  onUpdate: (value) {
- points = value;
+  // do some job if needed
  },
 )
 ```

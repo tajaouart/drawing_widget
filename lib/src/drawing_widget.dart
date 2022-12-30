@@ -7,6 +7,13 @@ import 'drawing.dart';
 import 'points.dart';
 import 'package:collection/collection.dart';
 
+/// [drawing] drawing object holding some properties
+/// [height] desired height of the drawing view
+/// [width] desired width of the drawing view
+/// [removeSidesPadding] specify uf you wish to remove the left space between
+/// the drawing and the sides
+/// [isDrawing] specify wether it's in drawing or displaying mode
+/// [onUpdate] called each time a line has been drawn
 class DrawingWidget extends StatefulWidget {
   const DrawingWidget({
     required this.drawing,
@@ -63,22 +70,23 @@ class _DrawingWidgetState extends State<DrawingWidget> {
     );
   }
 
+  /// called whenever the user tries to draw
+  /// it creates a new path
   void _onDragUpdate(DragUpdateDetails details) {
-    debugPrint('++++++ $details');
     var mouseX = details.localPosition.dx;
     var mouseY = details.localPosition.dy;
 
     if (widget.drawing.points.isEmpty) {
-      widget.drawing.points.add([]);
+      widget.drawing.points.add(List.empty(growable: true));
     }
     setState(() {
       widget.drawing.points.last.add(Point(mouseX.toInt(), mouseY.toInt()));
     });
   }
 
+  /// once the user stops drawing we close the current path
   void _onDragEnd(DragEndDetails _) {
-    debugPrint('++++++ end');
-    widget.drawing.points.add([]);
+    widget.drawing.points.add(List.empty(growable: true));
     widget.onUpdate?.call(widget.drawing.points);
   }
 }
@@ -100,7 +108,6 @@ class _DrawPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    debugPrint('++++++ ${drawing.color}');
     final pointsList = drawing.points.expand((element) => element).toList();
     final xList = pointsList.map((e) => e.x).toList();
     final yList = pointsList.map((e) => e.y).toList();
@@ -109,6 +116,8 @@ class _DrawPainter extends CustomPainter {
     }
 
     if (isDrawing) {
+      // once the drawing ends and the width and the height of the drawn shape
+      // are assigned they should not be modified
       if (removeSidesPadding) {
         drawing.width = (xList.max - xList.min).toDouble();
         drawing.height = (yList.max - yList.min).toDouble();

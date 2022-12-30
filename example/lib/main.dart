@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: screenWidth * (drawingWidth / 10),
                   height: screenWidth * (drawingHeight / 10),
                   onUpdate: (drawingObject) {
-                    /// TODO
+                    // do some job
                   },
                 ),
               ),

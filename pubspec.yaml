@@ -1,6 +1,6 @@
 name: drawing_widget
 description: Drawing Widget.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/tajaouart/drawing_widget
 
 environment:
@@ -10,8 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  uuid: 3.0.7
-  collection: 1.16.0
+  uuid: ^3.0.7
+  collection: ^1.16.0
 
 
 

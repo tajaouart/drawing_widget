@@ -31,34 +31,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double drawingWidth = 10;
-  double drawingHeight = 10;
+  double drawingWidth = 200;
+  double drawingHeight = 200;
   bool isDrawing = true;
   Drawing drawing = Drawing();
+  bool clipRRect = false;
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              color: Colors.black12,
-              width: screenWidth,
-              height: screenWidth,
-              child: Center(
-                child: DrawingWidget(
-                  drawing: drawing,
-                  isDrawing: isDrawing,
-                  width: screenWidth * (drawingWidth / 10),
-                  height: screenWidth * (drawingHeight / 10),
-                  onUpdate: (drawingObject) {
-                    // do some job
-                  },
-                ),
+            SizedBox(
+              width: 300,
+              height: 300,
+              child: DrawingWidget(
+                drawing: drawing,
+                isDrawing: isDrawing,
+                width: drawingWidth,
+                height: drawingHeight,
+                removeSidesPadding: false,
+                clipBehavior: clipRRect ? Clip.antiAlias : Clip.none,
+                onUpdate: (drawingObject) {
+                  // do some job
+                },
               ),
             ),
             // Parameters widgets
@@ -73,8 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: Slider(
                             value: drawingWidth,
-                            min: 1,
-                            max: 10,
+                            min: 20,
+                            max: 300,
                             onChanged: (value) {
                               setState(() {
                                 drawingWidth = value;
@@ -91,8 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: Slider(
                             value: drawingHeight,
-                            min: 1,
-                            max: 10,
+                            min: 20,
+                            max: 300,
                             onChanged: (value) {
                               setState(() {
                                 drawingHeight = value;
@@ -148,6 +146,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
+                  Row(
+                    children: [
+                      const Text(('ClipRRect : ')),
+                      Switch(
+                        value: clipRRect,
+                        onChanged: (value) {
+                          setState(() {
+                            clipRRect = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             )
@@ -161,8 +172,8 @@ class _MyHomePageState extends State<MyHomePage> {
               isDrawing = false;
             } else {
               drawing = Drawing();
-              drawingWidth = 10;
-              drawingHeight = 10;
+              drawingWidth = 300;
+              drawingHeight = 300;
               isDrawing = true;
             }
           });

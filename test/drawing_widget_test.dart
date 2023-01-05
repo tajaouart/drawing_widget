@@ -24,7 +24,8 @@ void main() {
     expect(drawing.points.isEmpty, true);
   });
 
-  testWidgets('Test drawing in drawing mode > isDrawing : true', (tester) async {
+  testWidgets('Test drawing in drawing mode > isDrawing : true',
+      (tester) async {
     final drawing = Drawing();
 
     await tester.pumpWidget(
@@ -47,7 +48,8 @@ void main() {
     expect(drawing.points.isNotEmpty, true);
   });
 
-  testWidgets('Test drawing in display mode > isDrawing : false', (tester) async {
+  testWidgets('Test drawing in display mode > isDrawing : false',
+      (tester) async {
     final drawing = Drawing();
 
     await tester.pumpWidget(
@@ -69,7 +71,6 @@ void main() {
 
     expect(drawing.points.isEmpty, true);
   });
-
 
   testWidgets('Test drawing two paths', (tester) async {
     final drawing = Drawing();
@@ -95,7 +96,4 @@ void main() {
     expect(drawing.points[0].isNotEmpty, true);
     expect(drawing.points[1].isNotEmpty, true);
   });
-
 }
-
-

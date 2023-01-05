@@ -7,29 +7,43 @@ import 'drawing.dart';
 import 'points.dart';
 import 'package:collection/collection.dart';
 
-/// [drawing] drawing object holding some properties
-/// [height] desired height of the drawing view
-/// [width] desired width of the drawing view
-/// [removeSidesPadding] specify uf you wish to remove the left space between
-/// the drawing and the sides
-/// [isDrawing] specify wether it's in drawing or displaying mode
-/// [onUpdate] called each time a line has been drawn
+/// Drawing widget for both drawing and displaying mode
 class DrawingWidget extends StatefulWidget {
   const DrawingWidget({
     required this.drawing,
     required this.height,
     required this.width,
     this.removeSidesPadding = false,
+    this.backgroundColor = Colors.black12,
     this.isDrawing = false,
     this.onUpdate,
+    this.clipBehavior = Clip.antiAlias,
     Key? key,
   }) : super(key: key);
 
+  /// [height] desired height of the drawing view
   final double height;
+
+  /// [width] desired width of the drawing view
   final double width;
+
+  /// [isDrawing] specify wether it's in drawing or displaying mode
   final bool isDrawing;
+
+  /// [drawing] drawing object holding some properties
+  /// the drawing and the sides
   final Drawing drawing;
+
+  /// [backgroundColor] of the drawing scene
+  final Color backgroundColor;
+
+  /// [removeSidesPadding] specify uf you wish to remove the left space between
   final bool removeSidesPadding;
+
+  /// [clipBehavior] enable or not drawing outside boundaries
+  final Clip clipBehavior;
+
+  /// [onUpdate] called each time a line has been drawn
   final Function(List<List<Point>>)? onUpdate;
 
   @override
@@ -39,32 +53,38 @@ class DrawingWidget extends StatefulWidget {
 class _DrawingWidgetState extends State<DrawingWidget> {
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      color: widget.backgroundColor,
       child: ClipRRect(
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: CustomPaint(
-                painter: _DrawPainter(
-                  removeSidesPadding: widget.removeSidesPadding,
-                  isDrawing: widget.isDrawing,
-                  drawing: widget.drawing,
-                  height: widget.height,
-                  width: widget.width,
-                ),
-                child: Container(),
-              ),
-            ),
-            if (widget.isDrawing)
+        clipBehavior: widget.clipBehavior,
+        child: RepaintBoundary(
+          child: Stack(
+            children: [
               Positioned.fill(
-                child: GestureDetector(
-                  onHorizontalDragEnd: _onDragEnd,
-                  onVerticalDragEnd: _onDragEnd,
-                  onHorizontalDragUpdate: _onDragUpdate,
-                  onVerticalDragUpdate: _onDragUpdate,
+                child: CustomPaint(
+                  painter: _DrawPainter(
+                    removeSidesPadding: widget.removeSidesPadding,
+                    isDrawing: widget.isDrawing,
+                    drawing: widget.drawing,
+                    height: widget.height,
+                    width: widget.width,
+                  ),
+                  child: Container(),
                 ),
               ),
-          ],
+              if (widget.isDrawing)
+                Positioned.fill(
+                  child: GestureDetector(
+                    onHorizontalDragEnd: _onDragEnd,
+                    onVerticalDragEnd: _onDragEnd,
+                    onHorizontalDragUpdate: _onDragUpdate,
+                    onVerticalDragUpdate: _onDragUpdate,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -91,6 +111,7 @@ class _DrawingWidgetState extends State<DrawingWidget> {
   }
 }
 
+/// Drawing content
 class _DrawPainter extends CustomPainter {
   _DrawPainter({
     required this.isDrawing,

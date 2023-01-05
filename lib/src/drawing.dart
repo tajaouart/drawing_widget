@@ -3,12 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 /// Holds some parameters for, the [drawingWidget]
-/// [width] & [height] should not be modified as they hold the original
-/// aspectRatio of the drawing
-/// [stroke] of the drawing line
-/// [color] of the drawing line
-/// [points] data of the drawing/shape
-/// representing the list of paths which are themselves are lists of points
 class Drawing {
   Drawing({
     List<List<Point>>? points,
@@ -22,12 +16,23 @@ class Drawing {
     this.points = points ?? List.empty(growable: true);
   }
 
+  /// id to provide easy comparison
   late final String id;
 
+  /// data of the drawing/shape
+  /// representing the list of paths which are themselves are lists of points
   List<List<Point>> points = List<List<Point>>.empty(growable: true);
+
+  /// [width] should not be modified as it hols the original aspectRatio of the drawing
   double width = 0;
+
+  /// [height] should not be modified as it hols the original aspectRatio of the drawing
   double height = 0;
+
+  /// [stroke] of the drawing line
   double stroke = 2;
+
+  /// [color] of the drawing line
   Color color = Colors.black;
 
   @override

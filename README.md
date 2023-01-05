@@ -2,7 +2,7 @@
 Easily add professional-quality drawing capabilities to your app with our customizable widget.
 
 
-<img src="drawing_widget.gif" height="600"/>
+<img src="https://raw.githubusercontent.com/tajaouart/drawing_widget/main/drawing_widget.gif" height="600"/>
 
 ## Features
 

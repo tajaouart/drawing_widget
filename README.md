@@ -1,5 +1,5 @@
 
-Light widget to make some drawing.
+Easily add professional-quality drawing capabilities to your app with our customizable widget.
 
 
 <img src="drawing_widget.gif" height="600"/>

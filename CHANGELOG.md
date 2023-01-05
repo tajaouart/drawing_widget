@@ -17,3 +17,7 @@ Fixed size scaling issues
 
 Added a drawing object to hold drawing parameters.
 Added tests.
+
+## 0.0.5
+
+Enable or not the drawing outside boundaries.

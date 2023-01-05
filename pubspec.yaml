@@ -1,6 +1,6 @@
 name: drawing_widget
 description: Easily add professional-quality drawing capabilities to your app with our customizable widget.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/tajaouart/drawing_widget
 
 environment:
